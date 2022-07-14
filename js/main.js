@@ -2,22 +2,32 @@
   let playerScore = 0;
   let computerScore = 0;
   let gameStatus = "On";
+  let rounds = 5;
 
-  let randomNumGenerator = () => {
+  alert(`Rules are as following
+   1- You play for five rounds against computer 
+
+   2- You can't leave the field blank if you do so the round won't be taken into consideration and you will end up playing an additional round
+
+   3- Same will happen if you entered any value other than rock, paper or scissors
+
+   4- In case of a draw you get the chance to choose between playing other five rounds or stop playing`)
+
+  const randomNumGenerator = () => {
     let randomNum = Math.floor(Math.random() * 3);
     return randomNum;
   };
 
-  let computerPlay = () => {
+  const computerPlay = () => {
     let gameKeyWords = ["rock", "paper", "scissors"];
     return gameKeyWords[randomNumGenerator()];
   };
 
-  let stringSanitizer = str => {
+  const stringSanitizer = str => {
     return str.trim().toLowerCase();
   };
 
-  let roundWinnerChecker = (sanitizedPlayerSelection, computerSelection) => {
+  const roundWinnerChecker = (sanitizedPlayerSelection, computerSelection) => {
     if (sanitizedPlayerSelection === computerSelection) {
       return console.log("Draw!,try again.");
     }
@@ -70,13 +80,14 @@
     }
   };
 
-  let playRound = () => {
+  const playRound = () => {
     let playerSelection = prompt(
       "Please enter your selection, the accepted values are rock, paper and scissors",
       "Rock"
     );
 
     if (!playerSelection) {
+      rounds++
       return alert(
         "The value can't be empty, Please enter your selection, the accepted values are rock," +
           " paper and scissors"
@@ -88,6 +99,7 @@
     if (
       !["rock", "paper", "scissors"].some(el => el === sanitizedPlayerSelection)
     ) {
+      rounds++
       return alert(
         `${sanitizedPlayerSelection} is invalid value please provide a proper value ` +
           `,the accepted values are rock, paper and scissors`
@@ -99,7 +111,7 @@
     roundWinnerChecker(sanitizedPlayerSelection, computerSelection);
   };
 
-  let gameStatusChecker = () => {
+  const gameStatusChecker = () => {
     if (computerScore === playerScore) {
       let playAgain = prompt("Draw, if you wanna play again enter Yes");
 
@@ -115,13 +127,14 @@
         return console.log("Draw");
       }
       gameStatus = "On";
+      rounds = 5;
       return;
     }
     gameStatus = "Done";
   };
 
-  let game = () => {
-    for (let i = 0; i < 5; i++) {
+  const game = () => {
+    for (let i = 0; i < rounds; i++) {
       playRound();
       console.log(
         `PlayerScore is ${playerScore}, computerScore is ${computerScore}`
